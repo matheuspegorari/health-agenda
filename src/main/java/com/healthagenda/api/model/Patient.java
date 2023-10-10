@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity(name = "patients")
-@Table(name = "patients")
+@Entity(name = "patient")
+@Table(name = "patient")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patients {
+public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cpf;
     private String cns;
     private Date dtnasc;
-    @OneToOne(mappedBy = "patients", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
     private String phone1;
     private String phone2;

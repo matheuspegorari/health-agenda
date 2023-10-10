@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "appointmentype")
-@Table(name = "appointmentype")
+@Entity(name = "doctor")
+@Table(name = "doctor")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentType {
+public class Doctor {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String type;
+    private String doctor;
+    private String licensenumber;
+    private String specialization;
 }
