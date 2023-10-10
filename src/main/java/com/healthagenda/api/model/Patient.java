@@ -1,5 +1,6 @@
 package com.healthagenda.api.model;
 
+import com.healthagenda.api.controller.CreatePatientData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,4 +25,13 @@ public class Patient {
     private Address address;
     private String phone1;
     private String phone2;
+
+    public Patient(CreatePatientData data) {
+        this.cpf = data.cpf();
+        this.cns = data.cns();
+        this.dtnasc = data.dtnasc();
+        this.address = data.address();
+        this.phone1 = data.phone1();
+        this.phone2 = data.phone2();
+    }
 }
