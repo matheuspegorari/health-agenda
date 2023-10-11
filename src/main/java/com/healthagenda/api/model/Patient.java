@@ -1,6 +1,7 @@
 package com.healthagenda.api.model;
 
-import com.healthagenda.api.controller.CreatePatientData;
+import com.healthagenda.api.dto.CreatePatientData;
+import com.healthagenda.api.repository.AddressRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity(name = "patient")
+@Entity(name = "Patient")
 @Table(name = "patient")
 @Getter
 @NoArgsConstructor
@@ -26,12 +27,12 @@ public class Patient {
     private String phone1;
     private String phone2;
 
-    public Patient(CreatePatientData data) {
+    public Patient(CreatePatientData data, Address address) {
         this.cpf = data.cpf();
         this.cns = data.cns();
         this.dtnasc = data.dtnasc();
-        this.address = data.address();
         this.phone1 = data.phone1();
         this.phone2 = data.phone2();
+        this.address = address;
     }
 }

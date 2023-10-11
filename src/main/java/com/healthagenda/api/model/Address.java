@@ -1,11 +1,12 @@
 package com.healthagenda.api.model;
 
+import com.healthagenda.api.dto.CreateAddressData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "address")
+@Entity(name = "Address")
 @Table(name = "address")
 @Getter
 @NoArgsConstructor
@@ -17,14 +18,15 @@ public class Address {
     private String address;
     private String address2;
     private String zipcode;
-    private String district;
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
 
-
-
-
-
+    public Address(CreateAddressData data, City city) {
+        this.address = data.address();
+        this.address2 = data.address2();
+        this.zipcode = data.zipcode();
+        this.city = city;
+    }
 }

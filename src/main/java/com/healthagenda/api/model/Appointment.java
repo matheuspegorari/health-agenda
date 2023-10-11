@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Entity(name = "appointment")
+@Entity(name = "Appointment")
 @Table(name = "appointment")
 public class Appointment {
     @Id

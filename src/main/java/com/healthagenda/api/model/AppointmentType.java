@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "appointmentype")
+@Entity(name = "AppointmenType")
 @Table(name = "appointmentype")
 @Getter
 @NoArgsConstructor

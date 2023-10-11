@@ -1,4 +1,4 @@
-package com.healthagenda.api.controller;
+package com.healthagenda.api.dto;
 
 import com.healthagenda.api.model.Address;
 import jakarta.persistence.JoinColumn;
@@ -9,16 +9,10 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 public record CreatePatientData(
-
-        @NotBlank
         String cpf,
-        @NotBlank
         String cns,
-        @NotBlank
         Date dtnasc,
-        @NotNull
-        Address address,
-        @NotBlank
-        String phone1,
-        String phone2) {
+        String phone1, String phone2,
+        CreateAddressData address
+        ) {
 }
