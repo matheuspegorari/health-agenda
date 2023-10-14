@@ -1,13 +1,15 @@
 package com.healthagenda.api.dto;
 
-import com.healthagenda.api.model.City;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateAddressData(
          @NotBlank
-         String address,
-         @NotBlank String address2,
-         @NotBlank String zipcode,
-         Long city
+         String streetName,
+         @NotBlank String number,
+         @NotBlank String complement,
+         @NotBlank String district,
+         @NotBlank String cep,
+         @NotNull Long city
 ) {
 }

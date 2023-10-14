@@ -15,18 +15,22 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String address;
-    private String address2;
-    private String zipcode;
+    private String streetName;
+    private String number;
+    private String complement;
+    private String district;
+    private String cep;
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
 
     public Address(CreateAddressData data, City city) {
-        this.address = data.address();
-        this.address2 = data.address2();
-        this.zipcode = data.zipcode();
+        this.streetName = data.streetName();
+        this.number = data.number();
+        this.complement = data.complement();
+        this.district = data.district();
+        this.cep = data.cep();
         this.city = city;
     }
 }

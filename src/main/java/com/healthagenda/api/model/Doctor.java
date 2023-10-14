@@ -15,6 +15,6 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String doctor;
-    private String licensenumber;
+    private String licenseNumber;
     private String specialization;
 }

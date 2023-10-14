@@ -18,8 +18,13 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    private String fullName;
+    @Column(nullable = false)
     private String cpf;
+    @Column(nullable = false)
     private String cns;
+    @Column(nullable = false)
     private Date dtnasc;
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)

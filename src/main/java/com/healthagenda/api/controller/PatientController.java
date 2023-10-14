@@ -1,6 +1,7 @@
 package com.healthagenda.api.controller;
 
 import com.healthagenda.api.dto.CreatePatientData;
+import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Address;
 import com.healthagenda.api.model.City;
 import com.healthagenda.api.model.Patient;
@@ -9,6 +10,8 @@ import com.healthagenda.api.repository.CityRepository;
 import com.healthagenda.api.repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,13 +53,14 @@ public class PatientController {
  */
     @PostMapping
     @Transactional
-    public void create(@RequestBody @Valid CreatePatientData data){
-        // salva primeiro o endereço
-        // obtem a cidade
+    public ResponseEntity<Object> create(@RequestBody @Valid CreatePatientData data){
         City city =  cityRepository.findCityById(data.address().city());
+        if (city == null) {
+            return new ResponseEntity<>(new ErrorMessage("City not found with the specified ID or no ID was provided."), HttpStatus.NOT_FOUND);
+        }
         Address address = addressRepository.save(new Address(data.address(), city));
-        patientRepository.save(new Patient(data, address));
+        Patient patient = patientRepository.save(new Patient(data, address));
+        return new ResponseEntity<>(patient, HttpStatus.CREATED);
     }
-
 
 }
