@@ -1,5 +1,6 @@
 package com.healthagenda.api.model;
 
+import com.healthagenda.api.dto.CreateDoctorData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,14 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String doctor;
+    private String name;
     private String licenseNumber;
-    private String specialization;
+    @Enumerated(EnumType.STRING)
+    private Specialization specialization;
+
+    public Doctor(CreateDoctorData data) {
+        this.name = data.name();
+        this.licenseNumber = data.licenseNumber();
+        this.specialization = Specialization.valueOf(data.specialization().toUpperCase());
+    }
 }
