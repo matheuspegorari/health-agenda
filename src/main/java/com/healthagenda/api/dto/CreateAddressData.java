@@ -7,7 +7,7 @@ public record CreateAddressData(
          @NotBlank
          String streetName,
          @NotBlank String number,
-         @NotBlank String complement,
+         String complement,
          @NotBlank String district,
          @NotBlank String cep,
          @NotNull Long city

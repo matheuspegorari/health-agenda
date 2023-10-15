@@ -10,6 +10,13 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "healthcenter_id", nullable = false)
+    private HealthCenter healthCenter;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
