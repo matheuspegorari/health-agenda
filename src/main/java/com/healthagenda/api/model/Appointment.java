@@ -2,6 +2,7 @@ package com.healthagenda.api.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "Appointment")
@@ -29,10 +30,13 @@ public class Appointment {
     @JoinColumn(name = "appointmentype_id", nullable = false)
     private AppointmentType appointmentType;
 
-    private Date date;
-    private int hour;
+    private LocalDateTime datetime;
     private String comments;
-    private char status;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 
 
 }
