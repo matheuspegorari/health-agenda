@@ -2,6 +2,7 @@ package com.healthagenda.api.controller;
 
 
 import com.healthagenda.api.dto.CreateHealthCenterData;
+import com.healthagenda.api.dto.GetHealthCenterData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Address;
 import com.healthagenda.api.model.City;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/healthcenter")
@@ -52,4 +54,19 @@ public class HealthCenterController {
         return healthCenterRepository.findAll();
     }
 
+
+    @GetMapping("/names")
+    public List<GetHealthCenterData> getHealthCenterNames(){
+        return healthCenterRepository
+                .findAll()
+                .stream()
+                .map(GetHealthCenterData::new)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getHealthCenterById (@PathVariable Long id){
+        HealthCenter hc = healthCenterRepository.findHealthCenterById(id);
+        return new ResponseEntity<>(hc, HttpStatus.OK);
+    }
 }

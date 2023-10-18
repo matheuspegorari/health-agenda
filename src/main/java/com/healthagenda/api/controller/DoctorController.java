@@ -33,5 +33,4 @@ public class DoctorController {
         return new ResponseEntity<>(doc, HttpStatus.CREATED);
     }
 
-
 }

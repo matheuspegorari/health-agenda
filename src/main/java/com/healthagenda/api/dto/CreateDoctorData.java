@@ -9,6 +9,5 @@ public record CreateDoctorData(
         String licenseNumber,
         @NotBlank
         String specialization
-
 ) {
 }
