@@ -1,12 +1,21 @@
 package com.healthagenda.api.model;
 
+import com.healthagenda.api.dto.CreateAppointmentData;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(name = "Appointment")
 @Table(name = "appointment")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +48,16 @@ public class Appointment {
     private LocalDateTime updated_at;
 
 
+    public Appointment(CreateAppointmentData data, HealthCenter hc, Doctor doc, Employee emp, Patient patient, AppointmentType appointmentType) {
+        this.healthCenter = hc;
+        this.doctor = doc;
+        this.employee = emp;
+        this.patient = patient;
+        this.appointmentType = appointmentType;
+        this.datetime = data.datetime();
+        this.comments = data.comments();
+        this.status = AppointmentStatus.valueOf(data.status());
+        this.created_at = LocalDateTime.now();
+
+    }
 }

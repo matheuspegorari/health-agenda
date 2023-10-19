@@ -33,6 +33,7 @@ public class Patient {
     private String phone2;
 
     public Patient(CreatePatientData data, Address address) {
+        this.fullName = data.fullName();
         this.cpf = data.cpf();
         this.cns = data.cns();
         this.dtnasc = data.dtnasc();
