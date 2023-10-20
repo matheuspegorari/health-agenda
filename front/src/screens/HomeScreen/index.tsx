@@ -13,9 +13,9 @@ import { CardUnity, Description, Subtitle, Title } from "./styled";
 import Label from "@/components/Label";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
-import { validatorCpfCnpj } from "@/utils/validate";
 import Header from "@/components/Header";
 import { api } from "@/utils/api";
+import { useSnackbar } from "notistack";
 
 interface DataForm {
   cpf: string;
@@ -31,6 +31,8 @@ export default function HomeScreen() {
 
   const router = useRouter();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [unidades, setUnidades] = useState<
     {
       imagemurl: string;
@@ -39,9 +41,19 @@ export default function HomeScreen() {
   >([]);
 
   const apiGetUnidades = () => {
-    api.get("/unidades.php").then((response) => {
-      setUnidades(response.data);
-    });
+    api
+      .get("/healthcenter/names")
+      .then((response) => {
+        setUnidades(response.data);
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      });
   };
 
   const apiSendForm = (data: DataForm) => {

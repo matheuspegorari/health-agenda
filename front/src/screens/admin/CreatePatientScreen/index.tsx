@@ -70,7 +70,12 @@ export default function CreatePatientScreen() {
         reset();
       })
       .catch((error) => {
-        console.log("Error:", error?.response?.data);
+        enqueueSnackbar(
+          error?.response?.data?.message || "Erro em pegar agendamento",
+          {
+            variant: "error",
+          }
+        );
       });
   };
 

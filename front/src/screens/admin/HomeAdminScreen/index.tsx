@@ -3,6 +3,7 @@ import { Box, Container, Grid, MenuItem } from "@mui/material";
 import { useRouter } from "next/router";
 import { Controller, useForm } from "react-hook-form";
 import Link from "next/link";
+import { useSnackbar } from "notistack";
 
 import Header from "@/components/Header";
 import { Description, Info, Subtitle, Text, Title } from "./styled";
@@ -27,6 +28,8 @@ export default function HomeAdminScreen() {
     formState: { errors },
   } = useForm<DataForm>();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [unidades, setUnidades] = useState<
     {
       idunid: string;
@@ -45,8 +48,6 @@ export default function HomeAdminScreen() {
   const router = useRouter();
 
   const apiSendForm = (data: DataForm) => {
-    console.log(data);
-
     localStorage.setItem("filtro_admin_agendamento_unidade", data.unityHealth);
     localStorage.setItem(
       "filtro_admin_agendamento_unidade_name",
@@ -58,15 +59,35 @@ export default function HomeAdminScreen() {
   };
 
   const apiGetUnidades = () => {
-    api.get("/unidades.php").then((response) => {
-      setUnidades(response.data);
-    });
+    api
+      .get("/unidades.php")
+      .then((response) => {
+        setUnidades(response.data);
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      });
   };
 
   const apiGetTipoAgendas = () => {
-    api.get("/tipos_de_agenda.php").then((response) => {
-      setTipoAgendas(response.data);
-    });
+    api
+      .get("/tipos_de_agenda.php")
+      .then((response) => {
+        setTipoAgendas(response.data);
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      });
   };
 
   useEffect(() => {

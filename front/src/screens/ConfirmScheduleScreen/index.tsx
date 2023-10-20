@@ -43,7 +43,7 @@ export default function ConfirmScheduleScreen() {
       })
       .catch((error) => {
         enqueueSnackbar(
-          error?.response?.data?.message || "Erro em pegar agendamento",
+          error?.response?.data?.message || "Tente novamente mais tarde!",
           {
             variant: "error",
           }
@@ -64,7 +64,7 @@ export default function ConfirmScheduleScreen() {
       })
       .catch((error) => {
         enqueueSnackbar(
-          error?.response?.data?.message || "Erro ao confirmar agendamento.",
+          error?.response?.data?.message || "Tente novamente mais tarde!.",
           {
             variant: "error",
           }
