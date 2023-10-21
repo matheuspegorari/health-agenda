@@ -55,7 +55,7 @@ public class Appointment {
         this.appointmentType = appointmentType;
         this.datetime = data.datetime();
         this.comments = data.comments();
-        this.status = AppointmentStatus.valueOf(data.status());
+        this.status = AppointmentStatus.SCHEDULED;
         this.created_at = LocalDateTime.now();
 
     }

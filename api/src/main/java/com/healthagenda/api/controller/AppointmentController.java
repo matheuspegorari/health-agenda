@@ -4,6 +4,7 @@ import com.healthagenda.api.dto.create.CreateAppointmentData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Appointment;
 import com.healthagenda.api.repository.*;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody CreateAppointmentData data){
+    public ResponseEntity<Object> create(@RequestBody @Valid CreateAppointmentData data){
         var hc = healthCenterRepository.findHealthCenterById(data.healthCenter());
         var doc = doctorRepository.findDoctorById(data.doctor());
         var emp = employeeRepository.findEmployeeById(data.employee());

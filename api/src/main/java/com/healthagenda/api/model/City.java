@@ -1,6 +1,4 @@
 package com.healthagenda.api.model;
-
-import com.healthagenda.api.dto.create.CreateCityData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,9 +17,4 @@ public class City {
     private String city;
     private String state;
     private String country;
-
-
-    public City(CreateCityData data) {
-        this.city = data.city();
-    }
 }
