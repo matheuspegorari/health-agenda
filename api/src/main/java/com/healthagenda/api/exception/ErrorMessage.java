@@ -10,5 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ErrorMessage {
+    private boolean error = true;
     private String message;
+
+    public ErrorMessage(String message){
+        this.message = message;
+    }
 }
+
