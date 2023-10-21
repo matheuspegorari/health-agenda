@@ -1,6 +1,7 @@
 package com.healthagenda.api.controller;
 
 import com.healthagenda.api.dto.create.CreatePatientData;
+import com.healthagenda.api.dto.get.GetPatientData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Address;
 import com.healthagenda.api.model.City;
@@ -12,10 +13,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -43,6 +43,16 @@ public class PatientController {
         Address address = addressRepository.save(new Address(data.address(), city));
         Patient patient = patientRepository.save(new Patient(data, address));
         return new ResponseEntity<>(patient, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<GetPatientData> getAllPatientData(){
+        return patientRepository.
+                findAll()
+                .stream()
+                .map(GetPatientData::new)
+                .toList()
+                ;
     }
 
 }

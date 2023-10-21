@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/appointment")
 public class AppointmentController {
@@ -31,15 +34,14 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid CreateAppointmentData data){
+        List<String> missingEntities = new ArrayList<>();
+
         var hc = healthCenterRepository.findHealthCenterById(data.healthCenter());
         var doc = doctorRepository.findDoctorById(data.doctor());
         var emp = employeeRepository.findEmployeeById(data.employee());
         var patient = patientRepository.findPatientById(data.patient());
         var at = appointmentTypeRepository.findAppointmentTypeById(data.appointmentType());
 
-        if (hc == null || doc == null || emp == null || patient == null || at == null) {
-            return new ResponseEntity<>(new ErrorMessage("Something is null"), HttpStatus.NOT_FOUND);
-        }
 
         var appointment = appointmentRepository.save(new
                 Appointment(data, hc, doc, emp, patient, at));

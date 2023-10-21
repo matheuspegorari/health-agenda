@@ -42,9 +42,9 @@ public class HealthCenterController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Object> create (@RequestBody @Valid CreateHealthCenterData data){
+    public ResponseEntity<Object> create (@RequestBody @Valid CreateHealthCenterData data) {
         Employee employee = employeeRepository.findEmployeeById(data.manager());
-        City city =  cityRepository.findCityById(data.address().city());
+        City city = cityRepository.findCityById(data.address().city());
         if (city == null) {
             return new ResponseEntity<>(new ErrorMessage("City not found with the specified ID or no ID was provided."), HttpStatus.NOT_FOUND);
         }
@@ -54,13 +54,7 @@ public class HealthCenterController {
     }
 
     @GetMapping
-    public List<HealthCenter> getAllHealthCenter(){
-        return healthCenterRepository.findAll();
-    }
-
-
-    @GetMapping("/names")
-    public List<GetHealthCenterData> getHealthCenterNames(){
+    public List<GetHealthCenterData> getAllHealthCenter(){
         return healthCenterRepository
                 .findAll()
                 .stream()

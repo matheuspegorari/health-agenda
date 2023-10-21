@@ -1,6 +1,7 @@
 package com.healthagenda.api.controller;
 
 import com.healthagenda.api.dto.create.CreateDoctorData;
+import com.healthagenda.api.dto.get.GetDoctorData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Doctor;
 import com.healthagenda.api.model.Specialization;
@@ -9,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/doctor")
@@ -30,6 +33,15 @@ public class DoctorController {
         }
         Doctor doc = doctorRepository.save(new Doctor(data));
         return new ResponseEntity<>(doc, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<GetDoctorData> getAllDoctor(){
+        return doctorRepository
+                .findAll()
+                .stream()
+                .map(GetDoctorData::new)
+                .toList();
     }
 
 }
