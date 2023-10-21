@@ -45,25 +45,27 @@ export default function CreatePatientScreen() {
   const { enqueueSnackbar } = useSnackbar();
 
   const apiSendForm = (data: DataForm) => {
-    const formDataPatient = new FormData();
-    formDataPatient.append("nome", data.name.trim());
-    formDataPatient.append("cpf", data.cpf);
-    formDataPatient.append("cns", data.cns);
-    formDataPatient.append("dtnasc", data.birthday);
-    formDataPatient.append("fixo", data.telephone);
-    formDataPatient.append("celular", data.phone);
-
-    formDataPatient.append("cep", data.cep);
-    formDataPatient.append("nomeend", data.street);
-    formDataPatient.append("numero", data.number);
-    formDataPatient.append("complemento", data.complement);
-    formDataPatient.append("cidade", data.city);
-    formDataPatient.append("estado", data.state);
+    const newPatient = {
+      fullName: data.name?.trim(),
+      cpf: data.cpf,
+      cns: data.cns,
+      dtnasc: data.birthday,
+      phone1: data.phone,
+      phone2: data.telephone,
+      address: {
+        streetName: data.street,
+        number: data.number,
+        complement: data.complement,
+        district: data.district,
+        cep: data.cep,
+        city: 1,
+      },
+    };
 
     api
-      .post("/cadastro.php", formDataPatient)
+      .post("/patient", newPatient)
       .then((response) => {
-        enqueueSnackbar("Dados inserido com sucesso", {
+        enqueueSnackbar("Paciente cadastrado com sucesso", {
           variant: "success",
         });
 
@@ -71,7 +73,7 @@ export default function CreatePatientScreen() {
       })
       .catch((error) => {
         enqueueSnackbar(
-          error?.response?.data?.message || "Erro em pegar agendamento",
+          error?.response?.data?.message || "Tente novamente mais tarde!",
           {
             variant: "error",
           }

@@ -7,6 +7,9 @@ import Label from "@/components/Label";
 import Select from "@/components/Select";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
+import { useSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { api } from "@/utils/api";
 
 interface DataForm {
   unityHealth: string;
@@ -23,9 +26,66 @@ export default function CreateScheduleScreen() {
     formState: { errors },
   } = useForm<DataForm>();
 
-  const apiSendForm = (data: DataForm) => {
-    console.log(data);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [healthUnits, setHealthUnits] = useState<
+    {
+      id: number;
+      centerName: string;
+    }[]
+  >([]);
+
+  const apiGetUnidades = () => {
+    api
+      .get("/healthcenter/names")
+      .then((response) => {
+        setHealthUnits(response.data);
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      });
   };
+
+  const apiSendForm = (data: DataForm) => {
+    setLoading(true);
+
+    const newSchedule = {
+      healthCenter: data.unityHealth,
+      doctor: data.doctor,
+      patient: data.patient,
+      appointmentType: data.typeSchedule,
+      datetime: data.dateSchedule,
+      comments: "teste",
+      status: "teste",
+    };
+
+    api
+      .post("/appointment", newSchedule)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    apiGetUnidades();
+  }, []);
 
   return (
     <main>
@@ -57,7 +117,13 @@ export default function CreateScheduleScreen() {
                 fullWidth
               >
                 <MenuItem value={""}>Selecione a unidade</MenuItem>
-                <MenuItem value={1}>Opção 1</MenuItem>
+
+                {healthUnits.length > 0 &&
+                  healthUnits.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.centerName}
+                    </MenuItem>
+                  ))}
               </Select>
             )}
           />

@@ -5,6 +5,9 @@ import { Description, Title } from "./styled";
 import TextInput from "@/components/TextInput";
 import Label from "@/components/Label";
 import Button from "@/components/Button";
+import { useSnackbar } from "notistack";
+import { api } from "@/utils/api";
+import { useState } from "react";
 
 interface DataForm {
   name: string;
@@ -16,11 +19,47 @@ export default function CreateDoctorScreen() {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<DataForm>();
 
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const apiSendForm = (data: DataForm) => {
     console.log(data);
+    setLoading(true);
+
+    const newDoctor = {
+      name: data.name,
+      licenseNumber: data.crm,
+      specialization: data.specialty,
+    };
+
+    api
+      .post("/doctor", newDoctor)
+      .then((response) => {
+        enqueueSnackbar(
+          response?.data?.message || "Médico cadastrado com sucesso!",
+          {
+            variant: "success",
+          }
+        );
+
+        reset();
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

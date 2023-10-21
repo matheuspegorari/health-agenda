@@ -35,8 +35,8 @@ export default function HomeScreen() {
 
   const [unidades, setUnidades] = useState<
     {
-      imagemurl: string;
-      nomeunidade: string;
+      id: number;
+      centerName: string;
     }[]
   >([]);
 
@@ -171,9 +171,9 @@ export default function HomeScreen() {
             slidesPerView={2.2}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {unidades?.map((item, index) => (
-              <SwiperSlide key={index}>
-                <Link href="/unidades">
+            {unidades?.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Link href={`/unidades/${item.id}`}>
                   <CardUnity>
                     <Image
                       src="/assets/images/placeholder_unidade.png"
@@ -182,7 +182,7 @@ export default function HomeScreen() {
                       height="200"
                     />
 
-                    <h3>{item.nomeunidade}</h3>
+                    <h3>{item.centerName}</h3>
                   </CardUnity>
                 </Link>
               </SwiperSlide>

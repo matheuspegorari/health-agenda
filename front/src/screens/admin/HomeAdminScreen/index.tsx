@@ -14,7 +14,7 @@ import TextInput from "@/components/TextInput";
 import { api } from "@/utils/api";
 
 interface DataForm {
-  unityHealth: string;
+  unityHealth: number | string;
   typeSchedule: string;
   status: string;
   startDate: string;
@@ -30,11 +30,10 @@ export default function HomeAdminScreen() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [unidades, setUnidades] = useState<
+  const [healthUnits, setHealthUnits] = useState<
     {
-      idunid: string;
-      imagemurl: string;
-      nomeunidade: string;
+      id: number;
+      centerName: string;
     }[]
   >([]);
 
@@ -48,11 +47,13 @@ export default function HomeAdminScreen() {
   const router = useRouter();
 
   const apiSendForm = (data: DataForm) => {
-    localStorage.setItem("filtro_admin_agendamento_unidade", data.unityHealth);
+    localStorage.setItem(
+      "filtro_admin_agendamento_unidade",
+      String(data?.unityHealth)
+    );
     localStorage.setItem(
       "filtro_admin_agendamento_unidade_name",
-      unidades.filter((item) => item.idunid === data.unityHealth)[0]
-        ?.nomeunidade
+      healthUnits?.filter((item) => item.id === data.unityHealth)[0]?.centerName
     );
 
     router.push("/admin/agendamentos");
@@ -60,9 +61,9 @@ export default function HomeAdminScreen() {
 
   const apiGetUnidades = () => {
     api
-      .get("/unidades.php")
+      .get("/healthcenter")
       .then((response) => {
-        setUnidades(response.data);
+        setHealthUnits(response.data);
       })
       .catch((error) => {
         enqueueSnackbar(
@@ -74,25 +75,25 @@ export default function HomeAdminScreen() {
       });
   };
 
-  const apiGetTipoAgendas = () => {
-    api
-      .get("/tipos_de_agenda.php")
-      .then((response) => {
-        setTipoAgendas(response.data);
-      })
-      .catch((error) => {
-        enqueueSnackbar(
-          error?.response?.data?.message || "Tente novamente mais tarde!",
-          {
-            variant: "error",
-          }
-        );
-      });
-  };
+  // const apiGetTipoAgendas = () => {
+  //   api
+  //     .get("/tipos_de_agenda.php")
+  //     .then((response) => {
+  //       setTipoAgendas(response.data);
+  //     })
+  //     .catch((error) => {
+  //       enqueueSnackbar(
+  //         error?.response?.data?.message || "Tente novamente mais tarde!",
+  //         {
+  //           variant: "error",
+  //         }
+  //       );
+  //     });
+  // };
 
   useEffect(() => {
     apiGetUnidades();
-    apiGetTipoAgendas();
+    // apiGetTipoAgendas();
   }, []);
 
   return (
@@ -139,11 +140,12 @@ export default function HomeAdminScreen() {
               >
                 <MenuItem value={""}>Selecione a unidade</MenuItem>
 
-                {unidades?.map((item) => (
-                  <MenuItem key={item.idunid} value={item.idunid}>
-                    {item.nomeunidade}
-                  </MenuItem>
-                ))}
+                {healthUnits?.length > 0 &&
+                  healthUnits?.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.centerName}
+                    </MenuItem>
+                  ))}
               </Select>
             )}
           />

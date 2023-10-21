@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useForm, Controller } from "react-hook-form";
 
 import Header from "@/components/Header";
@@ -9,9 +10,11 @@ import { Subtitle, Title } from "./styled";
 import Button from "@/components/Button";
 import Label from "@/components/Label";
 import TextInput from "@/components/TextInput";
+import { api } from "@/utils/api";
 
 interface DataForm {
   name: string;
+  email: string;
   cep: string;
   street: string;
   number: string;
@@ -26,12 +29,57 @@ export default function CreateUnityHealthScreen() {
     handleSubmit,
     control,
     watch,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<DataForm>();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const apiSendForm = (data: DataForm) => {
-    console.log(data);
+    setLoading(true);
+
+    const newHealthUnit = {
+      centerName: data.name?.trim(),
+      email: data.email?.trim(),
+      openingTime: "8:00:00",
+      closingTime: "18:00:00",
+      manager: null,
+      address: {
+        streetName: data.street,
+        number: data.number,
+        complement: data.complement,
+        district: data.district,
+        cep: data.cep,
+        city: 5,
+      },
+    };
+
+    api
+      .post("/healthcenter", newHealthUnit)
+      .then((response) => {
+        reset();
+
+        enqueueSnackbar(
+          response?.data?.message ||
+            "Unidade básica de saúde cadastrada com sucesso!",
+          {
+            variant: "success",
+          }
+        );
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          error?.response?.data?.message || "Tente novamente mais tarde!",
+          {
+            variant: "error",
+          }
+        );
+      })
+      .finally(() => {
+        setLoading(true);
+      });
   };
 
   const apiExternViaCep = () => {
@@ -81,6 +129,32 @@ export default function CreateUnityHealthScreen() {
                 placeholder="Digite aqui o nome"
                 error={Boolean(errors.name)}
                 helperText={errors.name?.message}
+                fullWidth
+                sx={{
+                  mb: "16px",
+                }}
+              />
+            )}
+          />
+
+          <Label>E-mail:</Label>
+
+          <Controller
+            control={control}
+            name="email"
+            defaultValue=""
+            rules={{ required: "Este campo é necessário" }}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <TextInput
+                id="email"
+                name="email"
+                value={value}
+                onChange={onChange}
+                type="email"
+                onBlur={onBlur}
+                placeholder="Digite aqui o e-mail"
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
                 fullWidth
                 sx={{
                   mb: "16px",
