@@ -1,7 +1,6 @@
 package com.healthagenda.api.controller;
 
-import com.healthagenda.api.dto.CreateAddressData;
-import com.healthagenda.api.dto.CreateDoctorData;
+import com.healthagenda.api.dto.create.CreateDoctorData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Doctor;
 import com.healthagenda.api.model.Specialization;

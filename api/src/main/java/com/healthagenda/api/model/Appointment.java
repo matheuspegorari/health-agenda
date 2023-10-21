@@ -1,6 +1,6 @@
 package com.healthagenda.api.model;
 
-import com.healthagenda.api.dto.CreateAppointmentData;
+import com.healthagenda.api.dto.create.CreateAppointmentData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(name = "Appointment")
 @Table(name = "appointment")

@@ -1,4 +1,4 @@
-package com.healthagenda.api.dto;
+package com.healthagenda.api.dto.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

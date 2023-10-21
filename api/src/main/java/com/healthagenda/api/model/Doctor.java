@@ -1,6 +1,6 @@
 package com.healthagenda.api.model;
 
-import com.healthagenda.api.dto.CreateDoctorData;
+import com.healthagenda.api.dto.create.CreateDoctorData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

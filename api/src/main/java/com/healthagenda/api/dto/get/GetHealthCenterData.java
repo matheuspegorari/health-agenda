@@ -1,4 +1,4 @@
-package com.healthagenda.api.dto;
+package com.healthagenda.api.dto.get;
 
 import com.healthagenda.api.model.HealthCenter;
 

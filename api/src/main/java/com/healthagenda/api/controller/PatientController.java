@@ -1,6 +1,6 @@
 package com.healthagenda.api.controller;
 
-import com.healthagenda.api.dto.CreatePatientData;
+import com.healthagenda.api.dto.create.CreatePatientData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Address;
 import com.healthagenda.api.model.City;
@@ -33,24 +33,6 @@ public class PatientController {
         this.cityRepository = cityRepository;
 
     }
-
-/*
-    Body:
-    {
-        "cpf": "48370220819",
-        "cns": "123456",
-        "dtnasc": "25486",
-        "phone1": "1254",
-        "phone2": "1254",
-        "address": {
-            "address": "R.Dos Alfeneiros n8",
-            "address2": "Jd Sao Marcos",
-            "zipcode": "13045120",
-            "district": "MG",
-            "city": 5
-        }
-    }
- */
     @PostMapping
     @Transactional
     public ResponseEntity<Object> create(@RequestBody @Valid CreatePatientData data){

@@ -1,8 +1,9 @@
 package com.healthagenda.api.controller;
 
 
-import com.healthagenda.api.dto.CreateHealthCenterData;
-import com.healthagenda.api.dto.GetHealthCenterData;
+import com.healthagenda.api.dto.create.CreateHealthCenterData;
+import com.healthagenda.api.dto.get.GetHealthCenterByIdData;
+import com.healthagenda.api.dto.get.GetHealthCenterData;
 import com.healthagenda.api.exception.ErrorMessage;
 import com.healthagenda.api.model.Address;
 import com.healthagenda.api.model.City;
@@ -16,10 +17,13 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/healthcenter")
@@ -67,6 +71,20 @@ public class HealthCenterController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getHealthCenterById (@PathVariable Long id){
         HealthCenter hc = healthCenterRepository.findHealthCenterById(id);
-        return new ResponseEntity<>(hc, HttpStatus.OK);
+
+        return new ResponseEntity<>(new GetHealthCenterByIdData(hc), HttpStatus.OK);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }

@@ -1,4 +1,4 @@
-package com.healthagenda.api.dto;
+package com.healthagenda.api.dto.create;
 
 import com.healthagenda.api.model.*;
 
