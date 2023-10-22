@@ -32,7 +32,7 @@ public class HealthCenter {
 
     public HealthCenter(CreateHealthCenterData data, Address address, Employee manager) {
         this.centerName = data.centerName();
-
+        this.phone = data.phone();
         this.email = data.email();
         this.openingTime = LocalTime.parse(data.openingTime());
         this.closingTime = LocalTime.parse(data.closingTime());
