@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Migration ###
+/src/main/resources/db/migration/
