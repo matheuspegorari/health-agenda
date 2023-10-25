@@ -65,6 +65,10 @@ public class HealthCenterController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getHealthCenterById (@PathVariable Long id){
         HealthCenter hc = healthCenterRepository.findHealthCenterById(id);
+        if (hc == null) return new ResponseEntity<>(
+                new ErrorMessage("No Health Center found with the id provided"),
+                HttpStatus.NOT_FOUND
+            );
 
         return new ResponseEntity<>(new GetHealthCenterByIdData(hc), HttpStatus.OK);
     }
